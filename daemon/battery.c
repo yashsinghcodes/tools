@@ -9,22 +9,24 @@
 #define EXIT_PERM 2
 
 int main(int argc, char **argv) {
-  while (true) {
     FILE *file;
     int capacity = -1;
 
-    file = fopen("/sys/class/power_supply/BAT0/capacity", "r");
+    file = fopen("/sys/class/power_supply/BAT1/capacity", "r");
     if (file == NULL) {
       fprintf(stderr, "Error opening the file. Check permission");
       exit(EXIT_PERM);
     }
-    if (fscanf(file, "%d", &capacity) == 0) {
-      fprintf(stderr, "Error No battery found");
-      exit(EXIT_NO_BAT);
+    while (true) {
+        if (fscanf(file, "%d", &capacity) == 0) {
+            fprintf(stderr, "Error No battery found");
+            exit(EXIT_NO_BAT);
+        }
+        printf("%d\n", capacity);
+        sleep(10);
+        fflush(file);
+        fseek(file, 0, SEEK_SET);
     }
-    printf("%d\n", capacity);
     fclose(file);
-    sleep(10);
-  }
   return 1;
 }
