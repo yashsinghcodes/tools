@@ -18,7 +18,6 @@ int checkBat(FILE *file) {
     fprintf(stderr, "Error No battery found");
     exit(EXIT_NO_BAT);
   }
-  sleep(capacity * 10);
   fflush(file);
   fseek(file, 0, SEEK_SET);
   return capacity;
@@ -51,6 +50,7 @@ int main(int argc, char **argv) {
     if (val <= 20) {
       pushNoti(val);
     }
+    sleep(val * 10);
   }
   fclose(file);
   return 1;
