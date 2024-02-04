@@ -36,14 +36,16 @@ void pushNoti(int val) {
 }
 
 int main(int argc, char **argv) {
-  printf("started");
+
   FILE *file;
   int val;
+  // TODO: relavtive file path.
   file = fopen("/sys/class/power_supply/BAT0/capacity", "r");
   if (file == NULL) {
     fprintf(stderr, "Error opening the file. Check permission");
     exit(EXIT_PERM);
   }
+  // TODO: Check if charging then sleep or quit.
   while (true) {
     val = checkBat(file);
     if (val <= 20) {
